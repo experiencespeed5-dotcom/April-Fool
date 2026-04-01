@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +10,21 @@
 </head>
 <body>
 
+  <!-- ══════════════════════════════
+       POPUP OVERLAY (Page 3)
+  ══════════════════════════════ -->
+  <div class="popup-overlay hidden" id="popup-overlay">
+    <div class="popup-box">
+      <div class="popup-icon">🎉</div>
+      <h2 class="popup-title">Congratulations dude,</h2>
+      <p class="popup-msg">It actually analyzes your personality.</p>
+      <button class="btn btn-primary popup-close-btn" onclick="closePopup()">
+        <span>OK, Show Me!</span>
+        <span class="btn-icon">👇</span>
+      </button>
+    </div>
+  </div>
+
   <!-- Floating orbs background -->
   <div class="bg-orbs">
     <div class="orb orb-1"></div>
@@ -20,7 +34,9 @@
 
   <div class="container">
 
-    <!-- PAGE 1 — INPUT FORM -->
+    <!-- ══════════════════════════════
+         PAGE 1 — INPUT FORM
+    ══════════════════════════════ -->
     <div class="card" id="page-1">
       <div class="card-header">
         <div class="badge">✦ AI Powered</div>
@@ -50,18 +66,41 @@
         <textarea id="strengths" placeholder="e.g. Great listener, creative thinker, loyal friend..."></textarea>
       </div>
 
+      <!-- ── Weakness Radio Buttons ── -->
       <div class="form-group">
-        <label>Your Weakness</label>
-        <div class="weakness-options">
-          <input type="radio" name="weakness" value="Fall for mask girl" id="w1">
-          <label for="w1">Fall for mask girl</label><br>
-          <input type="radio" name="weakness" value="Cute voice girl" id="w2">
-          <label for="w2">Cute voice girl</label><br>
-          <input type="radio" name="weakness" value="Senior girl" id="w3">
-          <label for="w3">Senior girl</label><br>
-          <input type="radio" name="weakness" value="Afraid to approach" id="w4">
-          <label for="w4">Afraid to approach</label>
+        <label>Your Weakness <span class="label-sub">(be honest 😏)</span></label>
+        <div class="radio-group">
+
+          <label class="radio-card" for="w1">
+            <input type="radio" name="weakness" id="w1" value="Falls for mask girl 😏" />
+            <span class="radio-icon">😷</span>
+            <span class="radio-text">Falls for mask girl</span>
+            <span class="radio-check">✔</span>
+          </label>
+
+          <label class="radio-card" for="w2">
+            <input type="radio" name="weakness" id="w2" value="Cute voice girl 🎀" />
+            <span class="radio-icon">🎀</span>
+            <span class="radio-text">Cute voice girl</span>
+            <span class="radio-check">✔</span>
+          </label>
+
+          <label class="radio-card" for="w3">
+            <input type="radio" name="weakness" id="w3" value="Senior girl 👀" />
+            <span class="radio-icon">👀</span>
+            <span class="radio-text">Senior girl</span>
+            <span class="radio-check">✔</span>
+          </label>
+
+          <label class="radio-card" for="w4">
+            <input type="radio" name="weakness" id="w4" value="Afraid to approach 🥶" />
+            <span class="radio-icon">🥶</span>
+            <span class="radio-text">Afraid to approach</span>
+            <span class="radio-check">✔</span>
+          </label>
+
         </div>
+        <p class="radio-error hidden" id="weakness-error">⚠ Please select your weakness!</p>
       </div>
 
       <button class="btn btn-primary" onclick="startAnalysis()">
@@ -72,8 +111,12 @@
       <p class="fine-print">Powered by GPT-∞ &nbsp;·&nbsp; 99.7% accuracy &nbsp;·&nbsp; Trusted by 0 scientists</p>
     </div>
 
-    <!-- PAGE 2 — LOADING + RESULT -->
+
+    <!-- ══════════════════════════════
+         PAGE 2 — LOADING + RESULT
+    ══════════════════════════════ -->
     <div class="card hidden" id="page-2">
+
       <!-- Loading state -->
       <div id="loading-state">
         <div class="loader-wrap">
@@ -95,6 +138,7 @@
 
       <!-- Result state -->
       <div id="result-state" class="hidden">
+
         <div class="result-header">
           <div class="avatar" id="avatar-initial"></div>
           <div>
@@ -111,7 +155,9 @@
 
         <div class="result-section">
           <h3>😬 Weaknesses Detected</h3>
-          <ul class="result-list weakness-list" id="weakness-list"></ul>
+          <ul class="result-list weakness-list" id="weakness-list">
+            <!-- populated by JS -->
+          </ul>
         </div>
 
         <div class="confidence-bar-wrap">
@@ -129,7 +175,10 @@
       </div>
     </div>
 
-    <!-- PAGE 3 — PRANK -->
+
+    <!-- ══════════════════════════════
+         PAGE 3 — PRANK SCREEN
+    ══════════════════════════════ -->
     <div class="card prank-card hidden" id="page-3">
       <div class="confetti-wrap" id="confetti"></div>
 
@@ -145,6 +194,8 @@
         <p>Happy April Fool!</p>
       </div>
 
+      <p class="scroll-hint">👇 now scroll down</p>
+
       <button class="btn btn-ghost" onclick="restart()">
         <span>Prank Someone Else</span>
         <span class="btn-icon">🔁</span>
@@ -153,7 +204,9 @@
 
   </div><!-- /.container -->
 
-  <!-- FOOTER — April Fool Image (only visible on page 3) -->
+  <!-- ══════════════════════════════
+       FOOTER — April Fool Image
+  ══════════════════════════════ -->
   <footer class="prank-footer hidden" id="prank-footer">
     <img src="april-fool.png" alt="April Fool Jester" class="footer-img" />
     <p class="footer-text">😂 Got you! Happy April Fool's Day! 😂</p>
