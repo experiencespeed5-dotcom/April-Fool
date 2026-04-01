@@ -44,11 +44,13 @@
         <p class="subtitle">Let's start with your info</p>
       </div>
 
+      <!-- Name -->
       <div class="form-group">
         <label for="name">Your Name</label>
         <input type="text" id="name" placeholder="e.g. Rohan Sharma" autocomplete="off" />
       </div>
 
+      <!-- Personality Type -->
       <div class="form-group">
         <label for="personality">Personality Type</label>
         <div class="select-wrapper">
@@ -61,46 +63,44 @@
         </div>
       </div>
 
+      <!-- Strengths -->
       <div class="form-group">
         <label for="strengths">Your Strengths</label>
         <textarea id="strengths" placeholder="e.g. Great listener, creative thinker, loyal friend..."></textarea>
       </div>
 
-      <!-- ── Weakness Radio Buttons ── -->
-      <div class="form-group">
-        <label>Your Weakness <span class="label-sub">(be honest 😏)</span></label>
-        <div class="radio-group">
+      <!-- ── Weakness chips ── -->
+      <div class="form-group" id="weakness-group">
+        <label>Your Weakness <span class="label-hint">(be honest 😅)</span></label>
 
-          <label class="radio-card" for="w1">
-            <input type="radio" name="weakness" id="w1" value="Falls for mask girl 😏" />
-            <span class="radio-icon">😷</span>
-            <span class="radio-text">Falls for mask girl</span>
-            <span class="radio-check">✔</span>
-          </label>
-
-          <label class="radio-card" for="w2">
-            <input type="radio" name="weakness" id="w2" value="Cute voice girl 🎀" />
-            <span class="radio-icon">🎀</span>
-            <span class="radio-text">Cute voice girl</span>
-            <span class="radio-check">✔</span>
-          </label>
-
-          <label class="radio-card" for="w3">
-            <input type="radio" name="weakness" id="w3" value="Senior girl 👀" />
-            <span class="radio-icon">👀</span>
-            <span class="radio-text">Senior girl</span>
-            <span class="radio-check">✔</span>
-          </label>
-
-          <label class="radio-card" for="w4">
-            <input type="radio" name="weakness" id="w4" value="Afraid to approach 🥶" />
-            <span class="radio-icon">🥶</span>
-            <span class="radio-text">Afraid to approach</span>
-            <span class="radio-check">✔</span>
-          </label>
-
+        <div class="chips-grid">
+          <div class="chip" id="chip-mask"     onclick="toggleChip(this, 'Falls for Mask Girl')">
+            <span class="chip-emoji">😏</span><span>Falls for Mask Girl</span>
+          </div>
+          <div class="chip" id="chip-voice"    onclick="toggleChip(this, 'Cute Voice Girl')">
+            <span class="chip-emoji">💕</span><span>Cute Voice Girl</span>
+          </div>
+          <div class="chip" id="chip-senior"   onclick="toggleChip(this, 'Senior Girl')">
+            <span class="chip-emoji">🎓</span><span>Senior Girl</span>
+          </div>
+          <div class="chip" id="chip-approach" onclick="toggleChip(this, 'Afraid to Approach')">
+            <span class="chip-emoji">😰</span><span>Afraid to Approach</span>
+          </div>
+          <!-- 5th chip — Other -->
+          <div class="chip chip-other" id="chip-other" onclick="toggleOther(this)">
+            <span class="chip-emoji">✏️</span><span>Other</span>
+          </div>
         </div>
-        <p class="radio-error hidden" id="weakness-error">⚠ Please select your weakness!</p>
+
+        <!-- Other textbox (hidden until "Other" selected) -->
+        <div class="other-box hidden" id="other-box">
+          <textarea
+            id="other-weakness"
+            class="other-textarea"
+            placeholder="Type your own weakness here... 😬"
+            oninput="syncOtherChip()"
+          ></textarea>
+        </div>
       </div>
 
       <button class="btn btn-primary" onclick="startAnalysis()">
@@ -138,7 +138,6 @@
 
       <!-- Result state -->
       <div id="result-state" class="hidden">
-
         <div class="result-header">
           <div class="avatar" id="avatar-initial"></div>
           <div>
@@ -155,9 +154,7 @@
 
         <div class="result-section">
           <h3>😬 Weaknesses Detected</h3>
-          <ul class="result-list weakness-list" id="weakness-list">
-            <!-- populated by JS -->
-          </ul>
+          <ul class="result-list weakness-list" id="weakness-list"></ul>
         </div>
 
         <div class="confidence-bar-wrap">
