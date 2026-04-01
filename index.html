@@ -39,7 +39,7 @@
     ══════════════════════════════ -->
     <div class="card" id="page-1">
       <div class="card-header">
-        <div class="badge">✦ Powered by IGG </div>
+        <div class="badge">✦ Powered by IGG</div>
         <h1>IGG Personality <span class="gradient-text">Analyzer</span></h1>
         <p class="subtitle">Let's start with your info</p>
       </div>
@@ -50,6 +50,34 @@
         <input type="text" id="name" placeholder="e.g. Kali Roses" autocomplete="off" />
       </div>
 
+      <!-- ── Gender Selector ── -->
+      <div class="form-group">
+        <label>Your Gender</label>
+        <div class="gender-grid">
+          <div class="gender-chip" id="g-male"   onclick="selectGender('male',   this)">
+            <span class="gender-emoji">👨</span>
+            <span>Male</span>
+          </div>
+          <div class="gender-chip" id="g-female" onclick="selectGender('female', this)">
+            <span class="gender-emoji">👩</span>
+            <span>Female</span>
+          </div>
+          <div class="gender-chip" id="g-other"  onclick="selectGender('other',  this)">
+            <span class="gender-emoji">🌈</span>
+            <span>Other</span>
+          </div>
+        </div>
+
+        <!-- "Other" gender textbox -->
+        <div class="other-box hidden" id="gender-other-box">
+          <textarea
+            id="gender-other-text"
+            class="other-textarea"
+            placeholder="Describe your gender / preferred identity... 💬"
+          ></textarea>
+        </div>
+      </div>
+
       <!-- Personality Type -->
       <div class="form-group">
         <label for="personality">Personality Type</label>
@@ -58,9 +86,6 @@
             <option value="" disabled selected>Choose your type...</option>
             <option value="Overthinker">Overthinker</option>
             <option value="Overthinker Pro Max">Overthinker Pro Max</option>
-            <option value="Overthinker Giga Pro Max">Overthinker Giga Pro Max</option>
-            <option value="Peak Lvl Overthinker">Peak Lvl Overthinker</option>
-            <option value="Sorry, We don't have option -> NONE">Sorry, We don't have option -> NONE</option>
           </select>
           <span class="select-arrow">▾</span>
         </div>
@@ -72,31 +97,18 @@
         <textarea id="strengths" placeholder="e.g. Good in Pickup Line, Fall for Anyone, Red Flag Lover"></textarea>
       </div>
 
-      <!-- ── Weakness chips ── -->
+      <!-- ── Weakness Chips (dynamic) ── -->
       <div class="form-group" id="weakness-group">
         <label>Your Weakness <span class="label-hint">(be honest 😅)</span></label>
 
-        <div class="chips-grid">
-          <div class="chip" id="chip-mask"     onclick="toggleChip(this, 'Falls for Mask Girl/Boy')">
-            <span class="chip-emoji">😏😷</span><span>Falls for Mask Girl</span>
-          </div>
-          <div class="chip" id="chip-voice"    onclick="toggleChip(this, 'Cute Voice Girl/Boy')">
-            <span class="chip-emoji">💕🗣️</span><span>Cute Voice Girl</span>
-          </div>
-          <div class="chip" id="chip-senior"   onclick="toggleChip(this, 'Senior Girl/Boy')">
-            <span class="chip-emoji">🎓👧</span><span>Senior Girl</span>
-          </div>
-          <div class="chip" id="chip-approach" onclick="toggleChip(this, 'Afraid to Approach Person/Crush')">
-            <span class="chip-emoji">😰🙊</span><span>Afraid to Approach</span>
-          </div>
-          <!-- 5th chip — Other -->
-          <div class="chip chip-other" id="chip-other" onclick="toggleOther(this)">
-            <span class="chip-emoji">✏️</span><span>Other</span>
-          </div>
+        <!-- chips rendered by JS based on gender -->
+        <div class="chips-grid" id="chips-grid">
+          <!-- Default placeholder shown before gender is picked -->
+          <p class="chips-placeholder">👆 Select your gender first to see options</p>
         </div>
 
-        <!-- Other textbox (hidden until "Other" selected) -->
-        <div class="other-box hidden" id="other-box">
+        <!-- Other weakness textbox -->
+        <div class="other-box hidden" id="weakness-other-box">
           <textarea
             id="other-weakness"
             class="other-textarea"
