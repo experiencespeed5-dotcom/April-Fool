@@ -456,3 +456,16 @@ h2 { font-family: 'Syne', sans-serif; font-size: 1.45rem; font-weight: 700; marg
   .popup-box { padding: 32px 22px; }
   .popup-title { font-size: 1.3rem; }
 }
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.radio-group label {
+  background: #eee;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
