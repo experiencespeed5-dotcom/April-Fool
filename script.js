@@ -130,7 +130,7 @@ function showResult() {
   });
   /* Funny fixed strength */
   const funnyLi = document.createElement('li');
-  funnyLi.textContent = 'Replies "hmm" after 2 hours 💬';
+  funnyLi.textContent = 'Hmmm, after 2 hours of overthinking 💬';
   funnyLi.style.animationDelay = `${sItems.length * 0.13}s`;
   sList.appendChild(funnyLi);
 
