@@ -130,7 +130,7 @@ function showResult() {
   });
   /* Funny fixed strength */
   const funnyLi = document.createElement('li');
-  funnyLi.textContent = 'Hmmm, after 2 hours of overthinking 💬';
+  funnyLi.textContent = 'Hmmm... After 2 hours of overthinking 💬';
   funnyLi.style.animationDelay = `${sItems.length * 0.13}s`;
   sList.appendChild(funnyLi);
 
@@ -141,7 +141,7 @@ function showResult() {
   /* If user picked weaknesses, show them; else show defaults */
   const weaknessesToShow = userData.weaknesses.length > 0
     ? userData.weaknesses
-    : ['Falls for mask girl / cute voice 😏', 'Overthinks at 3 AM 🌙', 'Says "I\'m fine" but clearly not 💀'];
+    : ['Falls for mask girl / cute voice 😏', 'Says "I\'m fine" but clearly not 💀'];
 
   weaknessesToShow.forEach((item, i) => {
     const li = document.createElement('li');
