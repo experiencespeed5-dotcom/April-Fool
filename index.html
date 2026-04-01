@@ -2,182 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IGG Personality Analyzer</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Personality Analyzer</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-  <!-- ══════════════════════════════
-       POPUP OVERLAY (Page 3)
-  ══════════════════════════════ -->
-  <div class="popup-overlay hidden" id="popup-overlay">
-    <div class="popup-box">
-      <div class="popup-icon">🎉</div>
-      <h2 class="popup-title">Congratulations Mr./Mrs.,</h2>
-      <p class="popup-msg">It actually analyzes your personality.</p>
-      <button class="btn btn-primary popup-close-btn" onclick="closePopup()">
-        <span>OK, Show Me!</span>
-        <span class="btn-icon">👇</span>
-      </button>
-    </div>
+<div class="container">
+
+<!-- PAGE 1 -->
+<div class="card" id="page-1">
+
+<h1>AI Personality Analyzer</h1>
+
+<input type="text" id="name" placeholder="Enter your name"/>
+
+<select id="personality">
+  <option value="">Select Type</option>
+  <option>Overthinker</option>
+  <option>Overthinker Pro Max</option>
+</select>
+
+<textarea id="strengths" placeholder="Enter strengths"></textarea>
+
+<!-- NEW WEAKNESS RADIO -->
+<div class="form-group">
+  <label>Select your weakness 😏</label>
+
+  <div class="radio-group">
+    <label><input type="radio" name="weakness" value="Falls for mask girl 😷"> Fall for mask girl</label>
+    <label><input type="radio" name="weakness" value="Falls for cute voice girl 🎙️"> Cute voice girl</label>
+    <label><input type="radio" name="weakness" value="Falls for senior girl 🎓"> Senior girl</label>
+    <label><input type="radio" name="weakness" value="Afraid to approach 😶"> Afraid to approach</label>
   </div>
+</div>
 
-  <!-- Floating orbs background -->
-  <div class="bg-orbs">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-  </div>
+<button onclick="startAnalysis()">Analyze</button>
 
-  <div class="container">
+</div>
 
-    <!-- ══════════════════════════════
-         PAGE 1 — INPUT FORM
-    ══════════════════════════════ -->
-    <div class="card" id="page-1">
-      <div class="card-header">
-        <div class="badge">✦ IGG REPRESENTS</div>
-        <h1>IGG Personality <span class="gradient-text">Analyzer</span></h1>
-        <p class="subtitle">Let's start with your information</p>
-      </div>
+<!-- PAGE 2 -->
+<div class="card hidden" id="page-2">
 
-      <div class="form-group">
-        <label for="name">Your Name</label>
-        <input type="text" id="name" placeholder="e.g. Kali Roses" autocomplete="off" />
-      </div>
+<h2 id="result-name"></h2>
+<p id="result-personality"></p>
 
-      <div class="form-group">
-        <label for="personality">Personality Type</label>
-        <div class="select-wrapper">
-          <select id="personality">
-            <option value="" disabled selected>Choose your type...</option>
-            <option value="Overthinker">Overthinker</option>
-            <option value="Overthinker Pro Max">Overthinker Pro Max</option>
-          </select>
-          <span class="select-arrow">▾</span>
-        </div>
-      </div>
+<h3>Strengths</h3>
+<ul id="strengths-list"></ul>
 
-      <div class="form-group">
-        <label for="strengths">Your Strengths</label>
-        <textarea id="strengths" placeholder="e.g. Don't Fall on Cute-Voice, Never Fall on Mask Gril..."></textarea>
-      </div>
+<h3>Weakness</h3>
+<ul id="weakness-list"></ul>
 
-      <button class="btn btn-primary" onclick="startAnalysis()">
-        <span>Analyze Personality</span>
-        <span class="btn-icon">👉</span>
-      </button>
+<button onclick="showReport()">Generate Report</button>
 
-      <p class="fine-print">Powered by IGG-∞ &nbsp;·&nbsp; 69.69% accuracy &nbsp;·&nbsp; Trusted by 69 scientists</p>
-    </div>
+</div>
 
+<!-- PAGE 3 -->
+<div class="card hidden" id="page-3">
 
-    <!-- ══════════════════════════════
-         PAGE 2 — LOADING + RESULT
-    ══════════════════════════════ -->
-    <div class="card hidden" id="page-2">
+<img src="april-fool.png" style="width:120px">
 
-      <!-- Loading state -->
-      <div id="loading-state">
-        <div class="loader-wrap">
-          <div class="neural-loader">
-            <div class="node n1"></div>
-            <div class="node n2"></div>
-            <div class="node n3"></div>
-            <div class="node n4"></div>
-            <div class="pulse-ring"></div>
-          </div>
-          <h2 class="loading-title">Analyzing your personality…</h2>
-          <div class="loading-steps">
-            <div class="step active" id="step-1">🧠 Scanning neural patterns</div>
-            <div class="step" id="step-2">🔍 Cross-referencing behaviour data</div>
-            <div class="step" id="step-3">✨ Generating deep insights</div>
-          </div>
-        </div>
-      </div>
+<h2>This report confirms you are officially fooled 😄</h2>
 
-      <!-- Result state -->
-      <div id="result-state" class="hidden">
-        <div class="result-header">
-          <div class="avatar" id="avatar-initial"></div>
-          <div>
-            <div class="badge badge-green">✔ Analysis Complete</div>
-            <h2 id="result-name"></h2>
-            <span class="personality-chip" id="result-personality"></span>
-          </div>
-        </div>
+</div>
 
-        <div class="result-section">
-          <h3>💪 Strengths Detected</h3>
-          <ul class="result-list" id="strengths-list"></ul>
-        </div>
+</div>
 
-        <div class="result-section">
-          <h3>😬 Weaknesses Detected</h3>
-          <ul class="result-list weakness-list">
-            <li>Falls for mask girl / cute voice 😏</li>
-            <li>Overthinks at 3 AM for no reason 🌙</li>
-            <li>Says "I'm fine" but is clearly not 💀</li>
-          </ul>
-        </div>
-
-        <div class="confidence-bar-wrap">
-          <span>Confidence Score</span>
-          <span class="confidence-val">84%</span>
-          <div class="confidence-bar">
-            <div class="confidence-fill"></div>
-          </div>
-        </div>
-
-        <button class="btn btn-primary" onclick="showReport()">
-          <span>Generate Report</span>
-          <span class="btn-icon">👉</span>
-        </button>
-      </div>
-    </div>
-
-
-    <!-- ══════════════════════════════
-         PAGE 3 — PRANK SCREEN
-    ══════════════════════════════ -->
-    <div class="card prank-card hidden" id="page-3">
-      <div class="confetti-wrap" id="confetti"></div>
-
-      <div class="prank-emoji">🤡</div>
-      <h2 class="prank-title">
-        This confirms you are<br>
-        <span class="gradient-text">officially fooled.</span>
-      </h2>
-      <p class="prank-date">Happy April Fool's Day 😄</p>
-
-      <div class="prank-result-box">
-        <p>Result: <strong>You have been pranked 😂</strong></p>
-        <p>Happy April Fool!</p>
-      </div>
-
-      <!-- Scroll hint -->
-      <p class="scroll-hint">👇 now scroll down</p>
-
-      <button class="btn btn-ghost" onclick="restart()">
-        <span>Prank Someone Else</span>
-        <span class="btn-icon">🔁</span>
-      </button>
-    </div>
-
-  </div><!-- /.container -->
-
-  <!-- ══════════════════════════════
-       FOOTER — April Fool Image
-       (only visible on page 3)
-  ══════════════════════════════ -->
-  <footer class="prank-footer hidden" id="prank-footer">
-    <img src="april-fool.png" alt="April Fool Jester" class="footer-img" />
-    <p class="footer-text">😂 Got you! Happy April Fool's Day! 😂</p>
-  </footer>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
