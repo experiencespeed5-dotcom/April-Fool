@@ -19,9 +19,7 @@
 
   <div class="container">
 
-    <!-- ══════════════════════════════
-         PAGE 1 — INPUT FORM
-    ══════════════════════════════ -->
+    <!-- PAGE 1 — INPUT FORM -->
     <div class="card" id="page-1">
       <div class="card-header">
         <div class="badge">✦ AI Powered</div>
@@ -70,16 +68,11 @@
         <span class="btn-icon">👉</span>
       </button>
 
-      <p class="fine-print">Powered by GPT-∞ &nbsp;·&nbsp; 99.7% accuracy &nbsp;·&nbsp; Trusted by 0 scientists</p>
+      <p class="fine-print">Powered by GPT-∞ · 99.7% accuracy · Trusted by 0 scientists</p>
     </div>
 
-
-    <!-- ══════════════════════════════
-         PAGE 2 — LOADING + RESULT
-    ══════════════════════════════ -->
+    <!-- PAGE 2 — LOADING + RESULT -->
     <div class="card hidden" id="page-2">
-
-      <!-- Loading state -->
       <div id="loading-state">
         <div class="loader-wrap">
           <div class="neural-loader">
@@ -98,7 +91,6 @@
         </div>
       </div>
 
-      <!-- Result state -->
       <div id="result-state" class="hidden">
         <div class="result-header">
           <div class="avatar" id="avatar-initial"></div>
@@ -134,37 +126,24 @@
       </div>
     </div>
 
-
-    <!-- ══════════════════════════════
-         PAGE 3 — PRANK SCREEN
-    ══════════════════════════════ -->
+    <!-- PAGE 3 — PRANK -->
     <div class="card prank-card hidden" id="page-3">
       <div class="confetti-wrap" id="confetti"></div>
-
       <div class="prank-emoji">🤡</div>
-      <h2 class="prank-title">
-        This confirms you are<br>
-        <span class="gradient-text">officially fooled.</span>
-      </h2>
+      <h2 class="prank-title">This confirms you are<br><span class="gradient-text">officially fooled.</span></h2>
       <p class="prank-date">Happy April Fool's Day 😄</p>
-
       <div class="prank-result-box">
         <p>Result: <strong>You have been pranked 😂</strong></p>
         <p>Happy April Fool!</p>
       </div>
-
       <button class="btn btn-ghost" onclick="restart()">
         <span>Prank Someone Else</span>
         <span class="btn-icon">🔁</span>
       </button>
     </div>
 
-  </div><!-- /.container -->
+  </div>
 
-  <!-- ══════════════════════════════
-       FOOTER — April Fool Image
-       (only visible on page 3)
-  ══════════════════════════════ -->
   <footer class="prank-footer hidden" id="prank-footer">
     <img src="april-fool.png" alt="April Fool Jester" class="footer-img" />
     <p class="footer-text">😂 Got you! Happy April Fool's Day! 😂</p>
