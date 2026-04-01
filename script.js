@@ -3,27 +3,51 @@
    ═══════════════════════════════════════════ */
 
 /* ── Shared state ── */
-let userData = { name: '', personality: '', strengths: '', weakness: '' };
+let userData = { name: '', personality: '', strengths: '', weaknesses: [] };
+
+/* Selected weakness chips */
+const selectedWeaknesses = new Set();
+let otherWeaknessText = '';
 
 /* ══════════════════════════════════════
-   Radio Card — interactive selection
+   CHIP TOGGLE (for the 4 fixed chips)
 ══════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', () => {
-  const radioCards = document.querySelectorAll('.radio-card');
+function toggleChip(el, value) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    selectedWeaknesses.add(value);
+  } else {
+    selectedWeaknesses.delete(value);
+  }
+}
 
-  radioCards.forEach(card => {
-    card.addEventListener('click', () => {
-      /* Deselect all */
-      radioCards.forEach(c => c.classList.remove('selected'));
-      /* Select clicked */
-      card.classList.add('selected');
-      /* Check the hidden radio input */
-      card.querySelector('input[type="radio"]').checked = true;
-      /* Hide error if visible */
-      document.getElementById('weakness-error').classList.add('hidden');
-    });
-  });
-});
+/* ══════════════════════════════════════
+   OTHER CHIP TOGGLE
+══════════════════════════════════════ */
+function toggleOther(el) {
+  el.classList.toggle('selected');
+  const otherBox = document.getElementById('other-box');
+
+  if (el.classList.contains('selected')) {
+    otherBox.classList.remove('hidden');
+    document.getElementById('other-weakness').focus();
+  } else {
+    otherBox.classList.add('hidden');
+    document.getElementById('other-weakness').value = '';
+    otherWeaknessText = '';
+    selectedWeaknesses.delete('__other__');
+  }
+}
+
+/* ── Keep "Other" value in sync ── */
+function syncOtherChip() {
+  otherWeaknessText = document.getElementById('other-weakness').value.trim();
+  if (otherWeaknessText) {
+    selectedWeaknesses.add('__other__');
+  } else {
+    selectedWeaknesses.delete('__other__');
+  }
+}
 
 /* ══════════════════════════════════════
    PAGE 1 → 2  |  Start Analysis
@@ -32,26 +56,22 @@ function startAnalysis() {
   const name        = document.getElementById('name').value.trim();
   const personality = document.getElementById('personality').value;
   const strengths   = document.getElementById('strengths').value.trim();
-  const weaknessEl  = document.querySelector('input[name="weakness"]:checked');
 
   if (!name)        { shake('name');        return; }
   if (!personality) { shake('personality'); return; }
   if (!strengths)   { shake('strengths');   return; }
 
-  /* Validate weakness radio */
-  if (!weaknessEl) {
-    const errEl = document.getElementById('weakness-error');
-    errEl.classList.remove('hidden');
-    /* Shake all radio cards */
-    document.querySelectorAll('.radio-card').forEach(card => {
-      card.style.borderColor = '#f472b6';
-      setTimeout(() => { card.style.borderColor = ''; }, 1200);
-    });
-    errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    return;
-  }
+  /* Build final weaknesses array */
+  const weaknesses = [];
+  selectedWeaknesses.forEach(w => {
+    if (w === '__other__') {
+      if (otherWeaknessText) weaknesses.push(otherWeaknessText);
+    } else {
+      weaknesses.push(w);
+    }
+  });
 
-  userData = { name, personality, strengths, weakness: weaknessEl.value };
+  userData = { name, personality, strengths, weaknesses };
 
   transitionTo('page-1', 'page-2');
   runLoadingSequence();
@@ -98,49 +118,36 @@ function showResult() {
   document.getElementById('result-name').textContent        = userData.name;
   document.getElementById('result-personality').textContent = userData.personality;
 
-  /* ── Strengths list ── */
-  const strengthsList = document.getElementById('strengths-list');
-  strengthsList.innerHTML = '';
-
-  const items = userData.strengths
-    .split(/[\n,]+/)
-    .map(s => s.trim())
-    .filter(Boolean);
-
-  items.forEach((item, i) => {
+  /* Strengths list */
+  const sList = document.getElementById('strengths-list');
+  sList.innerHTML = '';
+  const sItems = userData.strengths.split(/[\n,]+/).map(s => s.trim()).filter(Boolean);
+  sItems.forEach((item, i) => {
     const li = document.createElement('li');
     li.textContent = item;
     li.style.animationDelay = `${i * 0.13}s`;
-    strengthsList.appendChild(li);
+    sList.appendChild(li);
   });
-
-  /* Updated funny strength */
+  /* Funny fixed strength */
   const funnyLi = document.createElement('li');
-  funnyLi.textContent = 'Hmmmm...Replies after 2 hours of overthinking!! 🤔';
-  funnyLi.style.animationDelay = `${items.length * 0.13}s`;
-  strengthsList.appendChild(funnyLi);
+  funnyLi.textContent = 'Replies "hmm" after 2 hours 💬';
+  funnyLi.style.animationDelay = `${sItems.length * 0.13}s`;
+  sList.appendChild(funnyLi);
 
-  /* ── Weaknesses list ── */
-  const weaknessList = document.getElementById('weakness-list');
-  weaknessList.innerHTML = '';
+  /* Weaknesses list */
+  const wList = document.getElementById('weakness-list');
+  wList.innerHTML = '';
 
-  /* User-selected weakness — highlighted */
-  const selectedLi = document.createElement('li');
-  selectedLi.textContent = userData.weakness;
-  selectedLi.classList.add('weakness-selected');
-  selectedLi.style.animationDelay = '0s';
-  weaknessList.appendChild(selectedLi);
+  /* If user picked weaknesses, show them; else show defaults */
+  const weaknessesToShow = userData.weaknesses.length > 0
+    ? userData.weaknesses
+    : ['Falls for mask girl / cute voice 😏', 'Overthinks at 3 AM 🌙', 'Says "I\'m fine" but clearly not 💀'];
 
-  /* Fixed funny weaknesses */
-  const fixedWeaknesses = [
-    'Overthinks at 3 AM for no reason 🌙',
-    'Says "I\'m fine" but is clearly not 💀'
-  ];
-  fixedWeaknesses.forEach((text, i) => {
+  weaknessesToShow.forEach((item, i) => {
     const li = document.createElement('li');
-    li.textContent = text;
-    li.style.animationDelay = `${(i + 1) * 0.13}s`;
-    weaknessList.appendChild(li);
+    li.textContent = item;
+    li.style.animationDelay = `${i * 0.13}s`;
+    wList.appendChild(li);
   });
 
   /* Swap loading ↔ result */
@@ -159,17 +166,14 @@ function showResult() {
 function showReport() {
   transitionTo('page-2', 'page-3');
 
-  /* Show footer */
   setTimeout(() => {
     document.getElementById('prank-footer').classList.remove('hidden');
   }, 400);
 
-  /* Show popup */
   setTimeout(() => {
     document.getElementById('popup-overlay').classList.remove('hidden');
   }, 600);
 
-  /* Confetti */
   setTimeout(launchConfetti, 300);
 }
 
@@ -187,7 +191,7 @@ function closePopup() {
 }
 
 /* ══════════════════════════════════════
-   Restart
+   Restart — reset everything → page 1
 ══════════════════════════════════════ */
 function restart() {
   /* Clear form */
@@ -195,10 +199,12 @@ function restart() {
   document.getElementById('personality').value = '';
   document.getElementById('strengths').value   = '';
 
-  /* Deselect all radio cards */
-  document.querySelectorAll('.radio-card').forEach(c => c.classList.remove('selected'));
-  document.querySelectorAll('input[name="weakness"]').forEach(r => r.checked = false);
-  document.getElementById('weakness-error').classList.add('hidden');
+  /* Reset chips */
+  document.querySelectorAll('.chip').forEach(c => c.classList.remove('selected'));
+  selectedWeaknesses.clear();
+  otherWeaknessText = '';
+  document.getElementById('other-box').classList.add('hidden');
+  document.getElementById('other-weakness').value = '';
 
   /* Reset loading steps */
   const labels = [
@@ -213,7 +219,6 @@ function restart() {
   });
   document.getElementById('step-1').classList.add('active');
 
-  /* Reset rest */
   document.querySelector('.confidence-fill').style.width = '0%';
   document.getElementById('loading-state').classList.remove('hidden');
   document.getElementById('result-state').classList.add('hidden');
@@ -253,13 +258,12 @@ function shake(fieldId) {
 }
 
 /* ══════════════════════════════════════
-   Confetti Burst
+   Confetti (2 waves)
 ══════════════════════════════════════ */
 function launchConfetti() {
   spawnConfetti(65, 0);
   setTimeout(() => spawnConfetti(45, 0), 900);
 }
-
 function spawnConfetti(count, baseDelay) {
   const wrap   = document.getElementById('confetti');
   const colors = ['#a78bfa','#f472b6','#34d399','#fbbf24','#60a5fa','#fb923c','#f87171'];
